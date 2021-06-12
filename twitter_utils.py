@@ -42,6 +42,10 @@ def tweet_create_url(userid):
     url = f"https://api.twitter.com/2/users/{userid}/tweets"
     return url
 
+def search_create_url(username,results=100):
+    url = f"https://api.twitter.com/2/tweets/search/recent?query=from%3A{username}&max_results={results}&user.fields=names"
+    return url
+
 def connect_to_endpoint(url, headers):
     """ Connect to endpoint and process the request """
     response = requests.request("GET", url, headers=headers)
