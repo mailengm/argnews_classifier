@@ -1,4 +1,5 @@
 import json
+import os
 from twitter_utils import *
 
 def get_user_id_from_json(path_to_file):
@@ -6,24 +7,30 @@ def get_user_id_from_json(path_to_file):
         data = json.load(f)
     data_list = data['data']
     ids = []
+    names = []
     for case in data_list:
         ids.append(case['id'])
-    return ids
+        names.append(case['username'])
+    return ids, names
 
 
 def main():
     data_path = "user_ID.json"
-    outfile_path = "tweets.json"
+    
     bearer_token = auth()
-
-    ids_list = get_user_id_from_json(data_path)
-    url = tweet_create_url(ids_list)
     headers = create_headers(bearer_token)
-    json_response = connect_to_endpoint(url, headers)
-    #print(json.dumps(json_response, indent=4, sort_keys=True))
+    ids_list, username_list = get_user_id_from_json(data_path)
 
-    with open(outfile_path, 'w') as outfile:
-        json.dump(json_response, outfile, indent=4, sort_keys=True,)
+    if not os.path.exists('data'):
+        os.makedirs('data')
+        
+    for id, username in zip(ids_list, username_list):
+
+        url = tweet_create_url(id)
+        json_response = connect_to_endpoint(url, headers)
+
+        with open(f"data/{username}_tweets.json", 'w') as outfile:
+            json.dump(json_response, outfile, indent=4, sort_keys=True,)
 
 
 if __name__ == "__main__":

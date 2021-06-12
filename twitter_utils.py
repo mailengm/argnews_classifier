@@ -26,8 +26,8 @@ def userid_create_url(usernames_list):
     url = "https://api.twitter.com/2/users/by?{}&{}".format(usernames, user_fields)
     return url
 
-def tweet_create_url(userid_list):
-    tweet_fields = "tweet.fields=lang,author_id"
+def tweet_create_url(userid):
+    #tweet_fields = "tweet.fields=lang,author_id"
     # Tweet fields are adjustable.
     # Options include:
     # attachments, author_id, context_annotations,
@@ -35,11 +35,11 @@ def tweet_create_url(userid_list):
     # in_reply_to_user_id, lang, non_public_metrics, organic_metrics,
     # possibly_sensitive, promoted_metrics, public_metrics, referenced_tweets,
     # source, text, and withheld
-    separator = ","
-    ids = f"ids={separator.join(userid_list)}"
+    #separator = ","
+    #ids = f"ids={separator.join(userid_list)}"
     # You can adjust ids to include a single Tweets.
     # Or you can add to up to 100 comma-separated IDs
-    url = "https://api.twitter.com/2/tweets?{}&{}".format(ids, tweet_fields)
+    url = f"https://api.twitter.com/2/users/{userid}/tweets"
     return url
 
 def connect_to_endpoint(url, headers):
