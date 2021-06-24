@@ -43,7 +43,8 @@ def tweet_create_url(userid):
     return url
 
 def search_create_url(username,results=100):
-    url = f"https://api.twitter.com/2/tweets/search/recent?query=from%3A{username}&max_results={results}&user.fields=names"
+    url = f"https://api.twitter.com/2/tweets/search/recent?query=from%3A{username}&max_results={results}&user.fields=name"
+    print(url)
     return url
 
 def connect_to_endpoint(url, headers):
